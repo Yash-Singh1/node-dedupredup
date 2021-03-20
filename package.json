@@ -1,0 +1,9 @@
+{
+  "name": "node-dedupredup",
+  "version": "1.0.0",
+  "description": "Remove duplicates or restore duplicates",
+  "main": "index.js",
+  "keywords": ["duplicates", "file"],
+  "author": "Yash Singh",
+  "license": "MIT"
+}
