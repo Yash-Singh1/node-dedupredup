@@ -57,11 +57,11 @@ module.exports = {
       });
       return contentGroup;
     });
-    let emptyDirectories = new Set(getEmptyDirectories(dir));
+    let emptyDirectories = getEmptyDirectories(dir);
     lengthObj.forEach((group) => {
       group.name.slice(1).forEach((name) => fs.unlinkSync(name));
     });
-    emptyDirectories = new Set([...new Set(getEmptyDirectories(dir))].filter((x) => !emptyDirectories.has(x)));
+    emptyDirectories = getEmptyDirectories(dir).filter((emptyDir) => !emptyDirectories.includes(emptyDir));
     emptyDirectories.forEach((emptyDir) => {
       fs.rmdirSync(emptyDir);
     });
