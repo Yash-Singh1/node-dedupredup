@@ -2,6 +2,12 @@
 
 Solution for removing duplicates and rebuilding the directory in `NodeJS`. Useful for directories and repositories with duplicate files or folders.
 
+## Installation
+
+```sh
+npm install node-dedupredup
+```
+
 ## API
 
 ### Example
