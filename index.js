@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const sha512sum = require('sha512sum')
+const sha512sum = require('sha512sum');
 
 function recursiveGetFiles(dir) {
   let files = [];
@@ -17,26 +17,11 @@ function recursiveGetFiles(dir) {
   return files;
 }
 
-function getEmptyDirectories(dir) {
-  let emptyDirs = [];
-  fs.readdirSync(dir)
-    .map((entry) => path.join(dir, entry))
-    .filter((pathName) => fs.statSync(pathName).isDirectory())
-    .forEach((directory) => {
-      if (fs.readdirSync(directory).length === 0) {
-        emptyDirs.push(directory);
-      } else {
-        emptyDirs.concat(getEmptyDirectories(directory));
-      }
-    });
-  return emptyDirs;
-}
-
 module.exports = {
   /**
    * Remove duplicate files from a directory
    * @param {string} dir The directory to remove duplicate files from
-   * @returns {{ emptyDirectories: Array<String>, matchingFiles: Object<Array<String>> }} The resulting .redup.json (it is already written)
+   * @returns {Object<Array<String>>} The resulting .redup.json (it is already written)
    */
   dedup(dir = '.') {
     let files = recursiveGetFiles(dir);
@@ -58,19 +43,11 @@ module.exports = {
       });
       return contentGroup;
     });
-    let emptyDirectories = getEmptyDirectories(dir);
     lengthObj.forEach((group) => {
       group.name.slice(1).forEach((name) => fs.unlinkSync(name));
     });
-    emptyDirectories = getEmptyDirectories(dir).filter((emptyDir) => !emptyDirectories.includes(emptyDir));
-    emptyDirectories.forEach((emptyDir) => {
-      fs.rmdirSync(emptyDir);
-    });
-    let redupJSON = {
-      emptyDirectories: [...emptyDirectories].map((dirName) => path.relative('.', dirName)),
-      matchingFiles: Object.fromEntries(lengthObj.map((group) => [group.name[0], group.name.slice(1)]).filter((group) => group[1].length > 0))
-    };
-    if (Object.keys(redupJSON.matchingFiles).length === 0) return;
+    let redupJSON = Object.fromEntries(lengthObj.map((group) => [group.name[0], group.name.slice(1)]).filter((group) => group[1].length > 0));
+    if (Object.keys(redupJSON).length === 0) return;
     fs.writeFileSync(path.join(dir, '.redup.json'), JSON.stringify(redupJSON));
     return redupJSON;
   },
@@ -80,10 +57,7 @@ module.exports = {
    */
   redup(dir = '.') {
     let config = JSON.parse(fs.readFileSync(path.join(dir, '.redup.json'), 'utf8'));
-    config.emptyDirectories.forEach((emptyDir) => {
-      fs.mkdirSync(emptyDir);
-    });
-    Object.entries(config.matchingFiles).forEach((file) => {
+    Object.entries(config).forEach((file) => {
       let fileContent = fs.readFileSync(file[0]);
       file[1].forEach((removedFile) => {
         fs.writeFileSync(removedFile, fileContent);
