@@ -43,7 +43,7 @@ module.exports = {
     files.forEach((file) => {
       lengthObj[file.length].push(file.name);
     });
-    lengthObj = Object.fromEntries(Object.entries(lengthObj).filter((entry) => entry.length > 1));
+    lengthObj = Object.fromEntries(Object.entries(lengthObj).filter((entry) => entry[1].length > 1));
     lengthObj = Object.values(lengthObj).flatMap((lengthGroup) => {
       let contentGroup = [];
       lengthGroup.forEach((fileName) => {
