@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Yash-Singh1/node-dedupredup/issues"
   },
-  "homepage": "https://github.com/Yash-Singh1/node-dedupredup#readme"
+  "homepage": "https://github.com/Yash-Singh1/node-dedupredup#readme",
+  "dependencies": {
+    "sha512sum": "^1.0.9"
+  }
 }

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const sha512sum = require('sha512sum')
 
 function recursiveGetFiles(dir) {
   let files = [];
@@ -47,7 +48,7 @@ module.exports = {
     lengthObj = Object.values(lengthObj).flatMap((lengthGroup) => {
       let contentGroup = [];
       lengthGroup.forEach((fileName) => {
-        let fileContent = fs.readFileSync(fileName, 'utf8');
+        let fileContent = sha512sum.fromFileSync(fileName).split(' ')[0];
         let contentFind = contentGroup.find((group) => group.content === fileContent);
         if (contentFind) {
           contentFind.name.push(fileName);
