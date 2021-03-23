@@ -33,3 +33,7 @@ The dedup function will take the `dir` given and remove duplicate files. The res
 - Paramaters: `dir`: `string`
 
 The redup function will rebuild the `dir` directory given using the `.redup.json` present.
+
+## Related
+
+See the CLI for this package: [`dedupredup-cli`](https://github.com/Yash-Singh1/dedupredup-cli)
