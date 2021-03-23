@@ -83,7 +83,7 @@ module.exports = {
       fs.mkdirSync(emptyDir);
     });
     Object.entries(config.matchingFiles).forEach((file) => {
-      let fileContent = fs.readFileSync(file[0], 'utf8');
+      let fileContent = fs.readFileSync(file[0]);
       file[1].forEach((removedFile) => {
         fs.writeFileSync(removedFile, fileContent);
       });
