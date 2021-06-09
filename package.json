@@ -19,5 +19,14 @@
   "homepage": "https://github.com/Yash-Singh1/node-dedupredup#readme",
   "dependencies": {
     "sha512sum": "^1.0.9"
+  },
+  "devDependencies": {
+    "fs-extra": "^10.0.0",
+    "globby": "^11.0.3",
+    "nyc": "^15.1.0",
+    "qunit": "^2.16.0"
+  },
+  "scripts": {
+    "test": "nyc --reporter=lcov --reporter=text-summary qunit"
   }
 }
