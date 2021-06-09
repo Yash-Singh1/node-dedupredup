@@ -51,6 +51,7 @@ module.exports = {
     fs.writeFileSync(path.join(dir, '.redup.json'), JSON.stringify(redupJSON));
     return redupJSON;
   },
+
   /**
    * Rebuild the directory after deduping it
    * @param {string} dir The directory to rebuild
