@@ -57,6 +57,9 @@ module.exports = {
    * @param {string} dir The directory to rebuild
    */
   redup(dir = '.') {
+    if (!fs.existsSync(path.join(dir, '.redup.json'))) {
+      return;
+    }
     let config = JSON.parse(fs.readFileSync(path.join(dir, '.redup.json'), 'utf8'));
     Object.entries(config).forEach((file) => {
       let fileContent = fs.readFileSync(file[0]);
