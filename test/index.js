@@ -5,7 +5,7 @@ const fse = require('fs-extra');
 const childProcess = require('child_process');
 
 async function clean() {
-  (await globby('test/input*/.redup.json')).forEach((file) => {
+  (await globby('test/**/.keep')).forEach((file) => {
     fs.unlinkSync(file);
   });
   if (fs.existsSync('test/duplicate')) {
