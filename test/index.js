@@ -4,14 +4,24 @@ const fs = require('fs');
 const fse = require('fs-extra');
 const childProcess = require('child_process');
 
+var keeps = [];
+
 async function clean() {
   (await globby('test/**/.keep')).forEach((file) => {
     fs.unlinkSync(file);
+    keeps.push(file);
   });
+  globalThis.keeps = keeps;
   if (fs.existsSync('test/duplicate')) {
     fs.rmSync('test/duplicate', { recursive: true, force: true });
   }
   fs.mkdirSync('test/duplicate');
+}
+
+function restoreKeeps() {
+  keeps.forEach((keep) => {
+    fs.writeFileSync(keep, '');
+  });
 }
 
 async function dedupDuplicate() {
@@ -28,7 +38,10 @@ QUnit.module('dedup', {
     await clean();
     await dedupDuplicate();
   },
-  after: clean
+  async after() {
+    await clean();
+    restoreKeeps();
+  }
 });
 
 var inputOutputs = [];
@@ -100,7 +113,10 @@ QUnit.module('redup', {
     await clean();
     await redupDuplicate();
   },
-  after: clean
+  async after() {
+    await clean();
+    restoreKeeps();
+  }
 });
 
 QUnit.test('redups correctly', (assert) => {
